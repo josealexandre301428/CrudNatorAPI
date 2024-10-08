@@ -2,7 +2,7 @@ import express from 'express'
 import { Router, Request, Response } from 'express'
 import mongoose from 'mongoose'
 import { config } from './config/config'
-import { router } from './routes/Router'
+import { router } from './routes/CustomerRouter'
 
 const server = express()
 const route = Router()
