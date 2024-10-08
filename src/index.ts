@@ -18,4 +18,8 @@ route.get('/', (req: Request, res: Response) => {
   res.json({ message: 'hello world' })
 })
 
+server.use('/api/customers', router)
+
+route.get('/', (req: Request, res: Response) => {})
+
 server.listen(3000, () => console.log(`Server is running on port ${3333}`))
