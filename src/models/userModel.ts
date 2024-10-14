@@ -1,13 +1,21 @@
 import { InferSchemaType, model, Schema } from 'mongoose'
 
 const userSchema = new Schema({
-  name: {
+  username: {
     type: String,
     required: true,
+    unique: true,
   },
   email: {
     type: String,
     get: obfuscate,
+    select: false,
+    unique: true,
+  },
+  password: {
+    type: String,
+    get: obfuscate,
+    select: false,
   },
 })
 
