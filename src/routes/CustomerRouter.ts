@@ -16,4 +16,4 @@ router.post('/createCustomer', createCustomer)
 router.patch('/:id', updateCustomer)
 router.delete('/:id', deleteCustomerById)
 
-export { router }
+export default router

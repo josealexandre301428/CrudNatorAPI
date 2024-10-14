@@ -2,7 +2,8 @@ import express from 'express'
 import { Router, Request, Response } from 'express'
 import mongoose from 'mongoose'
 import { config } from './config/config'
-import { router } from './routes/CustomerRouter'
+import customerRoutes from './routes/customerRouter'
+import userRoutes from './routes/userRouter'
 
 const server = express()
 const route = Router()
@@ -18,7 +19,8 @@ route.get('/', (req: Request, res: Response) => {
   res.json({ message: 'hello world' })
 })
 
-server.use('/api/customers', router)
+server.use('/api/customers', customerRoutes) //Routes for create costumers info
+server.use('/api/users', userRoutes) //Routes for login
 
 route.get('/', (req: Request, res: Response) => {})
 
