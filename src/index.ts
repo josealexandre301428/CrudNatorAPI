@@ -21,7 +21,6 @@ route.get('/', (req: Request, res: Response) => {
 
 server.use('/api/customers', customerRoutes) //Routes for create costumers info
 server.use('/api/users', userRoutes) //Routes for login
-
 route.get('/', (req: Request, res: Response) => {})
 
 server.listen(3000, () => console.log(`Server is running on port ${3333}`))
