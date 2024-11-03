@@ -1,13 +1,21 @@
 import { Request, Response, NextFunction } from 'express'
 import userModel from '../models/userModel'
 import bcrypt from 'bcrypt'
+import jwt, { Secret, JwtPayload } from 'jsonwebtoken'
 import { updateCustomer } from './customerController'
+import { get } from 'mongoose'
+import { config } from 'dotenv'
+
+require('dotenv').config();
+
 
 interface ISignUpBody {
   username?: string
   email?: string
   password: string
 }
+
+
 
 export const signUp = async (
   req: Request,
@@ -47,5 +55,54 @@ export const signUp = async (
     res.status(201).json({ message: 'User created sucessfuly!' })
   } catch (error) {
     next(error)
+  }
+}
+
+export const loginUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => { 
+  const { email, password} = req.body
+
+ 
+  if (!email){ 
+  res.status(422).json({ message: "Type your email"})
+  }
+
+  if (!password){ 
+    res.status(422).json({ message: "Type your passsword"})
+  }
+
+  const user = await userModel.findOne({email: email}).exec()
+  console.log(user)
+  if(!user){
+    res.status(422).json({ message: "User not found"})
+  }
+
+  if (!user || !user.password) {
+    throw new Error("User not found or password is missing");
+  }
+  
+  const checkPassword = await bcrypt.compare(password, user.password);
+
+  if (checkPassword){
+  
+
+}
+}
+
+export const getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => { 
+  try {
+    const users = await userModel.find()
+    res.status(200).json({ users });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => { 
+  try {
+    const {id} = req.params
+    const userById = await userModel.findById(id)
+    res.status(200).json({ userById });
+  } catch (error) {
+   next(error) 
   }
 }
