@@ -10,6 +10,8 @@ const SERVER_PORT = process.env.SERVER_PORT
   ? Number(process.env.SERVER_PORT)
   : 1337
 
+const JWT_SECRET = process.env.JWT_SECRET || 'defaultSecretKey';
+
 export const config = {
   mongo: {
     username: MONGO_USERNAME,
@@ -19,4 +21,7 @@ export const config = {
   server: {
     port: SERVER_PORT,
   },
+  jwt: {
+    secret: JWT_SECRET,
+  }
 }

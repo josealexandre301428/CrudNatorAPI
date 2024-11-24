@@ -8,33 +8,28 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    get: obfuscate,
+    get: obfuscate, 
+    required: true,
     select: false,
     unique: true,
   },
   password: {
     type: String,
-    get: obfuscate,
+    required: true,
     select: false,
   },
-})
+});
 
-function obfuscate(email: String) {
-  const separatorIndex = email.indexOf('@')
+function obfuscate(value: string): string {
+  if (!value) return ''; 
+  const separatorIndex = value.indexOf('@');
   if (separatorIndex < 3) {
-    // 'ab@gmail.com' -> '**@gmail.com'
-    return (
-      email.slice(0, separatorIndex).replace(/./g, '*') +
-      email.slice(separatorIndex)
-    )
+    return value.slice(0, separatorIndex).replace(/./g, '*') + value.slice(separatorIndex);
   }
-  // 'test42@gmail.com' -> 'te****@gmail.com'
-  return (
-    email.slice(0, 2) +
-    email.slice(2, separatorIndex).replace(/./g, '*') +
-    email.slice(separatorIndex)
-  )
+  return value.slice(0, 2) + value.slice(2, separatorIndex).replace(/./g, '*') + value.slice(separatorIndex);
 }
+
+
 
 type User = InferSchemaType<typeof userSchema>
 export default model<User>('User', userSchema)
