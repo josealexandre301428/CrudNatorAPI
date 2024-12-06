@@ -25,13 +25,15 @@ const styles = {
     color: '#333',
     fontFamily: 'Arial, sans-serif',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row', // Muda para linha, com o header ao lado
     minHeight: '100vh', // A altura mínima da página é 100vh
+    marginLeft: '60px', // Adiciona a largura do header fixo
   },
   main: {
     flexGrow: 1, // O conteúdo do main cresce para preencher o espaço restante
     padding: '20px',
     paddingBottom: '40px', // Adiciona um espaçamento no final
+    paddingLeft: '20px', // Adiciona um espaço à esquerda para o conteúdo
   },
   heroSection: {
     textAlign: 'center',
