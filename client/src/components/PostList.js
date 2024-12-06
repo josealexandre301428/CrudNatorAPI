@@ -6,6 +6,8 @@ const PostList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [hoveredCard, setHoveredCard] = useState(null);
+
   // Buscar os posts assim que o componente for montado
   useEffect(() => {
     axios
@@ -32,7 +34,15 @@ const PostList = () => {
   return (
     <div style={styles.container}>
       {posts.map((post) => (
-        <div key={post._id} style={styles.card}>
+        <div 
+          key={post._id} 
+          style={{
+            ...styles.card,
+            ...(hoveredCard === post._id ? styles.hover : {})
+          }}
+          onMouseEnter={() => setHoveredCard(post._id)}
+          onMouseLeave={() => setHoveredCard(null)}
+        >
           <h2>{post.title}</h2>
           <p>{post.content}</p>
           <small>{post.area}</small>
@@ -46,19 +56,43 @@ const styles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'center',  // Centraliza os cards horizontalmente
-    alignItems: 'center',      // Centraliza os cards verticalmente
-    gap: '16px',
+    justifyContent: 'center',
+    gap: '20px',
     padding: '20px',
-    minHeight: '100vh',        // Garante que a tela ocupe a altura completa da janela
+    alignItems: 'center',
+    transition: 'all 0.3s ease',
   },
   card: {
-    border: '1px solid #ddd',
-    padding: '15px',
-    borderRadius: '8px',
-    width: '200px',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-    textAlign: 'center',      // Centraliza o texto dentro de cada card
+    backgroundColor: '#fff',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    width: '280px',
+    padding: '20px',
+    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+    textAlign: 'center',
+    marginBottom: '20px',
+    height: '250px', // Altura fixa para os cards
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  hover: {
+    transform: 'scale(1.05)',
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+  },
+  cardContent: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap', // Garante que o texto não quebre em várias linhas
+    height: '60px', // Limita a altura do texto para caber na área
+  },
+  '@media (max-width: 768px)': {
+    container: {
+      flexDirection: 'column', // Cards em coluna quando a tela for menor
+    },
+    card: {
+      width: '100%', // Ocupa toda a largura disponível
+    },
   },
 };
 
