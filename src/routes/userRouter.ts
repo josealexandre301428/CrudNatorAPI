@@ -1,8 +1,7 @@
 import { Router } from 'express'
-import express from 'express'
 import { signUp, getAllUsers, getUserById, loginUser} from '../controllers/user/userController'
 
-const router = express.Router()
+const router = Router()
 
 router.post('/signup', signUp)
  router.post('/login',loginUser)

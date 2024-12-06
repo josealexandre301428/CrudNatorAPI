@@ -40,12 +40,12 @@ const styles = {
     marginBottom: '20px',
   },
   heroTitle: {
-    fontSize: '40px',
-    color: '#F0C808', 
+    fontSize: '60px',  // Aumenta o tamanho do título
+    color: '#000',  // Define a cor como preta
     marginBottom: '10px',
   },
   heroSubtitle: {
-    fontSize: '16px',
+    fontSize: '24px',  // Aumenta o tamanho do subtítulo
     color: '#555',
   },
 };

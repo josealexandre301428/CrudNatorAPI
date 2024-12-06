@@ -34,6 +34,11 @@ const PostDetailsPage = () => {
       <h1 style={styles.title}>{post.title}</h1>
       <p style={styles.content}>{post.content}</p>
       <small style={styles.area}>Área: {post.area}</small>
+      {post.link && (
+        <a href={post.link} target="_blank" rel="noopener noreferrer" style={styles.link}>
+          Link do Projeto
+        </a>
+      )}
     </div>
   );
 };

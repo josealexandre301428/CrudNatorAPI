@@ -1,11 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import { createPost, getAllPosts as fetchAllPosts, getPostById as fetchPostById, updatePost as modifyPost, deletePostById as removePost } from './postsService';
+import { 
+  createPost, 
+  getAllPosts as fetchAllPosts, 
+  getPostById as fetchPostById, 
+  updatePost as modifyPost, 
+  deletePostById as removePost 
+} from './postsService';
 
 /**
  * Cria um novo post verificando se todos os parâmetros necessários estão presentes
  */
 export const newPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { title, content, area } = req.body;
+  const { title, content, area, link } = req.body;
 
   try {
     // Validando 
@@ -15,7 +21,7 @@ export const newPost = async (req: Request, res: Response, next: NextFunction): 
     }
 
     // Criando um novo post
-    const newPost = await createPost(title, content, area);
+    const newPost = await createPost(title, content, area, link);
     res.status(201).json({ message: 'Post created successfully!', post: newPost });
   } catch (error) {
     next(error); 
@@ -30,7 +36,7 @@ export const getAllPosts = async (req: Request, res: Response, next: NextFunctio
     const posts = await fetchAllPosts();
     res.status(200).json({ posts });
   } catch (error) {
-    next(error); // Envia o erro para o middleware de erro
+    next(error);
   }
 };
 

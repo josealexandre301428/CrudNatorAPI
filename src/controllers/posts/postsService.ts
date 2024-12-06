@@ -5,9 +5,10 @@ import postModel from '../../models/postModel';
  * @param title - O título do post
  * @param content - O conteúdo do post
  * @param area - A área do post (por exemplo, tecnologia, ciência, etc.)
+ * @param link - O link relacionado ao post
  */
-export const createPost = async (title: string, content: string, area: string) => {
-  const newPost = await postModel.create({ title, content, area });
+export const createPost = async (title: string, content: string, area: string, link?: string) => {
+  const newPost = await postModel.create({ title, content, area, link });
   return newPost;
 };
 
@@ -31,9 +32,9 @@ export const getPostById = async (id: string) => {
 /**
  * Atualiza um post pelo ID
  * @param id - O ID do post a ser atualizado
- * @param updatedData - Os dados para atualização (como title, content, etc.)
+ * @param updatedData - Os dados para atualização (como title, content, area, link, etc.)
  */
-export const updatePost = async (id: string, updatedData: { title?: string; content?: string; area?: string }) => {
+export const updatePost = async (id: string, updatedData: { title?: string; content?: string; area?: string; link?: string }) => {
   const updatedPost = await postModel.findByIdAndUpdate(id, updatedData, { new: true });
   return updatedPost;
 };
