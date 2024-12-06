@@ -12,6 +12,8 @@ import {
  */
 export const newPost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { title, content, area, link } = req.body;
+  const userId = req.params.id;  // O ID do usuário vem do middleware de autenticação, assumindo que req.user está presente
+
 
   try {
     // Validando 
@@ -21,7 +23,7 @@ export const newPost = async (req: Request, res: Response, next: NextFunction): 
     }
 
     // Criando um novo post
-    const newPost = await createPost(title, content, area, link);
+    const newPost = await createPost(userId, title, content, area, link);
     res.status(201).json({ message: 'Post created successfully!', post: newPost });
   } catch (error) {
     next(error); 

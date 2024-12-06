@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 // Create a new post
-router.post('/createPost/', newPost);
+router.post('/createPost/:id', newPost);
 
 // Fetch all posts
 router.get('/', getAllPosts);
