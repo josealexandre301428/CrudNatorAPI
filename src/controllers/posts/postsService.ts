@@ -21,11 +21,22 @@ export const getAllPosts = async () => {
 };
 
 /**
- * Obtém um post pelo ID
+ * Obtém todos os posts de um usuário específico
+ * @param userId - O ID do usuário cujos posts serão retornados
+ */
+export const getPostsByUser = async (userId: string) => {
+  const posts = await postModel.find({ author: userId }); // Filtra os posts pelo author (userId)
+  return posts;
+};
+
+/**
+ * Obtém um post pelo ID e retorna os dados do post, incluindo o usuário que o criou
  * @param id - O ID do post
  */
 export const getPostById = async (id: string) => {
-  const post = await postModel.findById(id);
+  const post = await postModel.findById(id).populate('author', 'username email'); // Popula o campo 'author' com os dados do usuário
+  console.log(post); // Adicione um log para garantir que a referência foi populada corretamente
+
   return post;
 };
 
