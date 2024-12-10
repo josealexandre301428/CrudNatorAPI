@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const PostDetailsPage = () => {
@@ -7,19 +7,30 @@ const PostDetailsPage = () => {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`/api/post/${id}`)
-      .then((response) => {
-        setPost(response.data.post); // Acessando a chave 'post' da resposta
-        setLoading(false);
-      })
-      .catch(() => {
-        setError('Erro ao carregar os detalhes do post');
-        setLoading(false);
-      });
-  }, [id]);
+    // Verifica se o usuário está autenticado
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Se não estiver autenticado, armazena o post de destino e redireciona para a página de login
+      localStorage.setItem('redirectAfterLogin', `/post/${id}`);
+      navigate('/login');
+    } else {
+      // Se estiver autenticado, carrega os detalhes do post
+      axios
+        .get(`/api/post/${id}`)
+        .then((response) => {
+          setPost(response.data.post);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError('Erro ao carregar os detalhes do post');
+          setLoading(false);
+        });
+    }
+  }, [id, navigate]);
+  
 
   if (loading) {
     return <div style={styles.loading}>Carregando...</div>;
@@ -49,9 +60,9 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '100vh',  // Garante que o conteúdo ocupe toda a altura da tela
+    minHeight: '100vh',
     padding: '20px',
-    backgroundColor: '#f9f9f9', // Um fundo leve para o layout
+    backgroundColor: '#f9f9f9',
     boxSizing: 'border-box',
   },
   title: {
@@ -64,7 +75,7 @@ const styles = {
     fontSize: '18px',
     marginBottom: '15px',
     color: '#555',
-    maxWidth: '800px', // Limita a largura do conteúdo
+    maxWidth: '800px',
     textAlign: 'center',
   },
   area: {

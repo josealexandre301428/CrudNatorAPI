@@ -16,20 +16,28 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     if (isLogin) {
       // Corrigir o endpoint para '/api/users/login'
       axios
-      .post('/api/users/login', { email, password })
-      .then((response) => {
-        // Armazenando o token JWT no localStorage
-        localStorage.setItem('token', response.data.token);
-        navigate('/profile');  // Redireciona para a página de perfil após login
-      })
-      .catch((err) => {
-        setError(err.response?.data?.message || 'Erro ao fazer login');
-        setLoading(false);
-      });
+        .post('/api/users/login', { email, password })
+        .then((response) => {
+          // Armazenando o token JWT no localStorage
+          localStorage.setItem('token', response.data.token);
+          
+          // Redireciona para a página inicial ou para o post de destino, se houver
+          const redirectUrl = localStorage.getItem('redirectAfterLogin');
+          if (redirectUrl) {
+            navigate(redirectUrl); // Redireciona para o post que o usuário tentou acessar
+            localStorage.removeItem('redirectAfterLogin'); // Limpa o redirect armazenado
+          } else {
+            navigate('/'); // Se não houver redirecionamento, vai para a página inicial
+          }
+        })
+        .catch((err) => {
+          setError(err.response?.data?.message || 'Erro ao fazer login');
+          setLoading(false);
+        });
     } else {
       // Corrigir o endpoint para '/api/users/signup'
       axios
@@ -41,6 +49,7 @@ const LoginPage = () => {
         });
     }
   };
+  
 
   const handleSignUpRedirect = () => {
     navigate('/signup');
