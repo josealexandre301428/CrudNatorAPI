@@ -15,8 +15,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "startserver": "concurrently \"npm run dev\" \"npm run start\"",
-    "start": "react-scripts start",
+    "startserver": "concurrently \"npm run backend\" \"npm run start\"",
+    "start": "PORT=3001 react-scripts start",
+    "backend": "cd ../src && npm run dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
